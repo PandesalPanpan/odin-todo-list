@@ -1,9 +1,13 @@
 import './styles.css';
+import View from './view.js';
 import Todo from './todos.js';
 import Project from './projects.js';
 
 const content = document.querySelector('#content');
 content.textContent = 'This is the content';
+
+const view = new View(document.querySelector('#content'));
+view.render();
 
 const test = new Todo('Old Title', 'Description', 'dueDate', 'priority');
 const test2 = new Todo('Test 2', 'Sample Description', 'what Date', 'priority');
