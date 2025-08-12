@@ -5,10 +5,13 @@ export default class Project {
         return Project.projects;
     }
 
-    constructor(name, todos) {
+    constructor(name) {
         this.name = name;
-        this.todos = todos;
-
+        this.todos = [];
         Project.projects.push(this);
+    }
+
+    addTodo = (todo) => {
+        this.todos.push(todo);
     }
 }
