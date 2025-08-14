@@ -20,24 +20,6 @@ export default class View {
         `
         View.contentDOM = document.querySelector('#content');
     }
-    
-    // Render the available projects
-    static render = () => {
-        View.rootDOM.innerHTML = `
-        <div class="container">
-            <div class="sidebar">
-                <button>
-                Create Project
-                </button>
-                <div class="project-list">
-
-                </div>
-            </div>
-            <div id="main">
-            </div>
-        </div>
-        `
-    }
 
     // Rendering the list of todos in a project
     static renderProjectNavigation = (projects) => {
@@ -45,7 +27,7 @@ export default class View {
     
         projectList.innerHTML = `<ul>
             ${projects.map(project => {
-                return `<li>
+                return `<li class="project-list-item">
                     ${project.name}
                 </li>`;s
             }).join('')}

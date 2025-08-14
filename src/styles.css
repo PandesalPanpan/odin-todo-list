@@ -84,3 +84,12 @@ body {
     background-color: var(--bg-primary);
 }
 
+ul {
+  list-style: none;
+}
+
+ul .project-list-item:hover {
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
