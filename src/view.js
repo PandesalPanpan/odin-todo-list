@@ -40,12 +40,20 @@ export default class View {
     }
 
     // Rendering the list of todos in a project
-    static renderProjects = (projects) => {
-        // Place
+    static renderProjectNavigation = (projects) => {
+        const projectList = document.querySelector('.project-list');
+    
+        projectList.innerHTML = `<ul>
+            ${projects.map(project => {
+                return `<li>
+                    ${project.name}
+                </li>`;s
+            }).join('')}
+        </ul>`
     }
 
     // Default Project
-    static renderAllTodos = (projects) => {
+    static renderAllProjectTodos = (projects) => {
         const todos = projects.flatMap(project => {
             return project.todos;
         });
