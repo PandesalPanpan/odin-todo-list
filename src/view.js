@@ -1,5 +1,6 @@
 export default class View {
     static rootDOM;
+    static contentDOM;
 
     static setRootDOM = (dom) => {
         View.rootDOM = dom;
@@ -17,6 +18,7 @@ export default class View {
         </div>
         <div id="content"></div>
         `
+        View.contentDOM = document.querySelector('#content');
     }
     
     // Render the available projects
@@ -48,8 +50,8 @@ export default class View {
             return project.todos;
         });
 
-        const main = document.querySelector('#main')
-        main.innerHTML = `<ul>
+        
+        View.contentDOM.innerHTML = `<ul>
             ${todos.map(todo => {
                 return `<li>${todo.title}</li>`
             }).join('')}
