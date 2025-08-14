@@ -1,13 +1,27 @@
 export default class View {
-    static dom;
+    static rootDOM;
 
-    static setDOM = (dom) => {
-        View.dom = dom;
+    static setRootDOM = (dom) => {
+        View.rootDOM = dom;
+    }
+
+    // Add the static initializer
+    static initialize = (dom) => {
+        View.setRootDOM(dom);
+        View.rootDOM.innerHTML = `
+        <div class="sidebar">
+            <button type="button">Create New Project</button>
+            <div class="project-list">
+            </div>
+
+        </div>
+        <div id="content"></div>
+        `
     }
     
     // Render the available projects
     static render = () => {
-        View.dom.innerHTML = `
+        View.rootDOM.innerHTML = `
         <div class="container">
             <div class="sidebar">
                 <button>
@@ -34,8 +48,8 @@ export default class View {
             return project.todos;
         });
 
-        View.dom.innerHTML = `
-        <ul>
+        const main = document.querySelector('#main')
+        main.innerHTML = `<ul>
             ${todos.map(todo => {
                 return `<li>${todo.title}</li>`
             }).join('')}
