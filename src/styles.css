@@ -53,21 +53,34 @@ h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
-body {
-    background-color: black;
-    color: #ffff;
+
+
+/* Color Palette */
+:root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-teriary: #334155;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
 }
 
 .root-container {
     display: grid;
     grid-template-columns: 1fr 6fr;
+    height: 100vh
+}
+
+body {
+    color: var(--text-primary);
 }
 
 .sidebar {
-    background-color: red;
+    background-color: var(--bg-teriary);
+    
 }
 
 #content {
-    background-color: blue;
+    background-color: var(--bg-primary);
 }
 
