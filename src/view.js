@@ -14,6 +14,7 @@ export default class View {
         View.rootDOM.innerHTML = `
         <div class="sidebar">
             <button id="create-project-btn" type="button">Create New Project</button>
+            <button id="all-project-todos" type="button">View All Todos</button>
             <div id="project-list">
             </div>
 
@@ -31,6 +32,13 @@ export default class View {
 
         const createProjectBtn = document.querySelector('#create-project-btn');
         createProjectBtn.addEventListener('click', View.handleCreateProject);
+
+        const viewAllProjectTodosBtn = document.querySelector('#all-project-todos');
+        viewAllProjectTodosBtn.addEventListener('click', View.handleViewAllProjectTodos);
+    }
+
+    static handleViewAllProjectTodos = (event) => {
+        View.renderAllProjectTodos(Project.getAllProjects());
     }
 
     static handleCreateProject = (event) => {
