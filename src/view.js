@@ -49,9 +49,9 @@ export default class View {
     
         projectList.innerHTML = `<ul>
             ${projects.map((project, index) => {
-                return `<li class="project-list-item data-project-id=${index} data-project-name="${project.name}">
+                return `<li class="project-list-item" data-project-uuid="${project.uuid}">
                     ${project.name}
-                </li>`;s
+                </li>`;
             }).join('')}
         </ul>`
     }
