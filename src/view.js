@@ -1,3 +1,5 @@
+import Project from "./projects";
+
 export default class View {
     static rootDOM;
     static contentDOM;
@@ -25,7 +27,7 @@ export default class View {
     static attachEventListener = () => {
         // Event Delegation for Project list List
         const projectList = document.querySelector('#project-list')
-        projectList.addEventListener('click', event => console.log("Hello world"));
+        projectList.addEventListener('click', View.handleNavigateProject);
 
         const createProjectBtn = document.querySelector('#create-project-btn');
         createProjectBtn.addEventListener('click', View.handleCreateProject);
@@ -43,6 +45,18 @@ export default class View {
         // TODO: Save the new project
     }
 
+    static handleNavigateProject = (event) => {
+        const projectDOM = event.target.closest('.project-list-item');
+        const project = Project.findByUUID(projectDOM.dataset.projectUuid);
+        
+        if (project === undefined) {
+            return;
+        }
+
+        // Replace the #main with all the todos
+        View.renderProjectTodos(project);
+    }
+
     // Rendering the list of todos in a project
     static renderProjectNavigation = (projects) => {
         const projectList = document.querySelector('#project-list');
@@ -54,6 +68,16 @@ export default class View {
                 </li>`;
             }).join('')}
         </ul>`
+    }
+
+    static renderProjectTodos = (project) => {
+        View.contentDOM.innerHTML = `
+        <ul>
+            ${project.todos.map(todo => {
+                return `<li>${todo.title}</li>`
+            }).join('')}
+        </ul>
+        `
     }
 
     // Default Project
