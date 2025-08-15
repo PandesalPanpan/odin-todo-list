@@ -47,6 +47,10 @@ export default class View {
 
     static handleNavigateProject = (event) => {
         const projectDOM = event.target.closest('.project-list-item');
+        if (!projectDOM) {
+            return;
+        }
+
         const project = Project.findByUUID(projectDOM.dataset.projectUuid);
         
         if (project === undefined) {
