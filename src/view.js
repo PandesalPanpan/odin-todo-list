@@ -11,23 +11,33 @@ export default class View {
         View.setRootDOM(dom);
         View.rootDOM.innerHTML = `
         <div class="sidebar">
-            <button type="button">Create New Project</button>
-            <div class="project-list">
+            <button id="create-project-btn" type="button">Create New Project</button>
+            <div id="project-list">
             </div>
 
         </div>
         <div id="content"></div>
         `
         View.contentDOM = document.querySelector('#content');
+        View.attachEventListener();
+    }
+
+    static attachEventListener = () => {
+        // Event Delegation for Project list List
+        const projectList = document.querySelector('#project-list')
+        projectList.addEventListener('click', event => console.log("Hello world"));
+
+        const createProjectBtn = document.querySelector('#create-project-btn');
+        createProjectBtn.addEventListener('click', event => console.log("create button"));
     }
 
     // Rendering the list of todos in a project
     static renderProjectNavigation = (projects) => {
-        const projectList = document.querySelector('.project-list');
+        const projectList = document.querySelector('#project-list');
     
         projectList.innerHTML = `<ul>
-            ${projects.map(project => {
-                return `<li class="project-list-item">
+            ${projects.map((project, index) => {
+                return `<li class="project-list-item data-project-id=${index} data-project-name="${project.name}">
                     ${project.name}
                 </li>`;s
             }).join('')}
