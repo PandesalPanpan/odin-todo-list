@@ -28,7 +28,19 @@ export default class View {
         projectList.addEventListener('click', event => console.log("Hello world"));
 
         const createProjectBtn = document.querySelector('#create-project-btn');
-        createProjectBtn.addEventListener('click', event => console.log("create button"));
+        createProjectBtn.addEventListener('click', View.handleCreateProject);
+    }
+
+    static handleCreateProject = (event) => {
+        View.contentDOM.innerHTML = `
+        <form id="create-project-form">
+            <label for="project-name">
+                <input type="text" id="project-name" name="project-name" required>
+            </label>
+            <button type="submit">Create Project</button>
+        </form>
+        `;
+        // TODO: Save the new project
     }
 
     // Rendering the list of todos in a project
