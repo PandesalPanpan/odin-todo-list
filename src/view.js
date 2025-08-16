@@ -50,7 +50,30 @@ export default class View {
             <button type="submit">Create Project</button>
         </form>
         `;
-        // TODO: Save the new project
+        // Add event listener for form
+        const form = document.querySelector('#create-project-form');
+        form.addEventListener('submit', View.handleSubmitCreateProject);
+        // Get the input project-name
+
+        // Create the new project
+        // Rerender project navigations
+    }
+
+    static handleSubmitCreateProject = (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const projectName = formData.get('project-name');
+        
+        // Validate Form
+        // Check if it is not null
+        if (!projectName) return;
+
+        // Create a New project
+        const newProject = new Project(projectName);
+        // Rerender the project navigation
+        View.renderProjectNavigation(Project.getAllProjects());
+        // Render the project todos
+        View.renderProjectTodos(newProject);
     }
 
     static handleNavigateProject = (event) => {
