@@ -85,15 +85,24 @@ export default class View {
     }
 
     static handleSubmitCreateTodo = (event) => {
-        const projectUUID = event.target.dataset.projectUuid;
-        // Print the input in the form
+        const project = Project.findByUUID(event.target.dataset.projectUuid);
+
+        if (project === undefined) {
+            console.log("Project is not found");
+            return;
+        }
+        
         const formData = new FormData(event.target);
         const todoTitle = formData.get('todo-title');
-        console.log(todoTitle);
-        
-        // TODO: Create the todo and push it to the todos of project
-        
-        //const todo = new Todo()
+        const todoDescription = formData.get('todo-description');
+        const todoDueDate = formData.get('todo-due-date');
+        const todoPriority = formData.get('todo-priority');
+
+        const todo = new Todo(todoTitle, todoDescription, todoDueDate, todoPriority);
+        project.addTodo(todo);
+
+        View.renderProjectTodos(project);
+
     }
 
     static handleViewAllProjectTodos = (event) => {
