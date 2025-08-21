@@ -93,3 +93,14 @@ ul .project-list-item:hover {
   cursor: pointer;
 }
 
+#create-todo-form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  max-width: 500px;
+  align-items: center;
+  gap: 1rem;
+}
+
+#create-todo-form label {
+  display: contents;
+}

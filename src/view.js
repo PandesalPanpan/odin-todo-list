@@ -1,4 +1,5 @@
 import Project from "./projects";
+import Todo from "./todos";
 
 export default class View {
     static rootDOM;
@@ -51,27 +52,48 @@ export default class View {
 
     static handleContentSubmit = (event) => {
         event.preventDefault();
-        if (event.target.id === 'create-todo-form') View.handleSubmitCreateTodo(event)
+        if (event.target.id === 'create-todo-form') {
+            View.handleSubmitCreateTodo(event);
+            return;
+        }
             
         // Check if the submit is for create-project-form
-        if (event.target.id === 'create-project-form') View.handleSubmitCreateProject(event);
+        if (event.target.id === 'create-project-form') {
+            View.handleSubmitCreateProject(event);
+            return;
+        } 
     }
 
     static handleViewCreateTodoForm = (event) => {
         View.contentDOM.innerHTML = `
         <form id="create-todo-form" data-project-uuid="${event.target.dataset.projectUuid}">
-            <label for="todo-title">
+            <label for="todo-title">Title
                 <input type="text" id="todo-title" name="todo-title" required>
+            </label>
+            <label for="todo-description">Description
+                <input type="text" id="todo-description" name="todo-description">
+            </label>
+            <label for="todo-due-date">Due Date
+                <input type="text" id="todo-due-date" name="todo-due-date">
+            </label>
+            <label for="todo-priority">Priority
+                <input type="checkbox" id="todo-priority" name="todo-priority">
             </label>
             <button type="submit">Create Todo</button>
         </form>
         `
-    
     }
 
     static handleSubmitCreateTodo = (event) => {
-        console.log(event.target.dataset.projectUuid);
+        const projectUUID = event.target.dataset.projectUuid;
+        // Print the input in the form
+        const formData = new FormData(event.target);
+        const todoTitle = formData.get('todo-title');
+        console.log(todoTitle);
+        
         // TODO: Create the todo and push it to the todos of project
+        
+        //const todo = new Todo()
     }
 
     static handleViewAllProjectTodos = (event) => {
