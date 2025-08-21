@@ -166,15 +166,22 @@ export default class View {
         </ul>`
     }
 
+    static renderTodoList = (todos) => {
+        return `<ul>
+            ${todos.map(todo => {
+                return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}">
+                ${todo.title}
+                </li>`
+            }).join('')}
+        </ul>
+        `
+    }
+
     // Takes a single project instance
     static renderProjectTodos = (project) => {
         View.contentDOM.innerHTML = `
         <button type="button" id="create-todo" data-project-uuid="${project.uuid}">Create New Todo</button>
-        <ul>
-            ${project.todos.map(todo => {
-                return `<li data-todo-uuid="${todo.uuid}">${todo.title}</li>`
-            }).join('')}
-        </ul>
+        ${View.renderTodoList(project.todos)}
         `
     }
 
@@ -185,15 +192,7 @@ export default class View {
         });
 
         
-        View.contentDOM.innerHTML = `
-        <ul>
-            ${todos.map(todo => {
-                return `<li data-todo-uuid="${todo.uuid}">
-                ${todo.title}
-                </li>`
-            }).join('')}
-        </ul>
-        `
+        View.contentDOM.innerHTML = View.renderTodoList(todos);
         
     }
 }
