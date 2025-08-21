@@ -34,20 +34,27 @@ export default class View {
         const createProjectBtn = document.querySelector('#create-project-btn');
         createProjectBtn.addEventListener('click', View.handleViewCreateProject);
 
-        
-
         const viewAllProjectTodosBtn = document.querySelector('#all-project-todos');
         viewAllProjectTodosBtn.addEventListener('click', View.handleViewAllProjectTodos);
-    
+        
         View.contentDOM.addEventListener('click', View.handleContentClick);
-
-        // TODO: Form Submit of Create Project should be event delegated
-        // Listen to contentDOM submits
         View.contentDOM.addEventListener('submit', View.handleContentSubmit);
     }
 
+    static handleViewAllProjectTodos = (event) => {
+        View.renderAllProjectTodos(Project.getAllProjects());
+    }
+
     static handleContentClick = (event) => {
-        if (event.target.id === 'create-todo') View.handleViewCreateTodoForm(event);
+        if (event.target.id === 'create-todo') {
+            View.handleViewCreateTodoForm(event)
+            return;
+        }
+
+        if (event.target.classList.contains("todo-list-item")) {
+            // Create a static method to handle viewing todo in detail
+        };
+
     }
 
     static handleContentSubmit = (event) => {
@@ -64,6 +71,8 @@ export default class View {
         } 
     }
 
+    
+    /* Todo Form */
     static handleViewCreateTodoForm = (event) => {
         View.contentDOM.innerHTML = `
         <form id="create-todo-form" data-project-uuid="${event.target.dataset.projectUuid}">
@@ -105,10 +114,7 @@ export default class View {
 
     }
 
-    static handleViewAllProjectTodos = (event) => {
-        View.renderAllProjectTodos(Project.getAllProjects());
-    }
-
+    /* Project Form */
     static handleViewCreateProject = (event) => {
         View.contentDOM.innerHTML = `
         <form id="create-project-form">
