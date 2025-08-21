@@ -166,27 +166,31 @@ export default class View {
         </ul>`
     }
 
+    // Takes a single project instance
     static renderProjectTodos = (project) => {
         View.contentDOM.innerHTML = `
         <button type="button" id="create-todo" data-project-uuid="${project.uuid}">Create New Todo</button>
         <ul>
             ${project.todos.map(todo => {
-                return `<li>${todo.title}</li>`
+                return `<li data-todo-uuid="${todo.uuid}">${todo.title}</li>`
             }).join('')}
         </ul>
         `
     }
 
-    // Default Project
+    // Takes Multiple Projects
     static renderAllProjectTodos = (projects) => {
         const todos = projects.flatMap(project => {
             return project.todos;
         });
 
         
-        View.contentDOM.innerHTML = `<ul>
+        View.contentDOM.innerHTML = `
+        <ul>
             ${todos.map(todo => {
-                return `<li>${todo.title}</li>`
+                return `<li data-todo-uuid="${todo.uuid}">
+                ${todo.title}
+                </li>`
             }).join('')}
         </ul>
         `
