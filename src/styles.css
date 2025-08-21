@@ -104,3 +104,7 @@ ul .project-list-item:hover {
 #create-todo-form label {
   display: contents;
 }
+
+.todo-list-item {
+  cursor: pointer;
+}
