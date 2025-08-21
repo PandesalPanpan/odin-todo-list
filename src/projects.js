@@ -1,3 +1,5 @@
+import Todo from "./todos";
+
 export default class Project {
     static projects = [];
 
@@ -17,6 +19,7 @@ export default class Project {
     }
 
     addTodo = (todo) => {
+        if (todo instanceof Todo === false) return;
         this.todos.push(todo);
     }
 }
