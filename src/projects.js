@@ -1,6 +1,8 @@
 import Todo from "./todos";
 
 export default class Project {
+    static projectStorage = 'odinTodoApp'
+
     static fromJSON = (data) => {
         const project = new Project(data.name, true);
         project.uuid = data.uuid;
@@ -18,7 +20,7 @@ export default class Project {
     }
 
     static getAllProjects = () => {
-        const data = JSON.parse(localStorage.getItem('odinTodoList') || '{"projects":[]}');
+        const data = JSON.parse(localStorage.getItem(Project.projectStorage) || '{"projects":[]}');
         return data.projects.map(projectData => Project.fromJSON(projectData));
     }
 
@@ -26,7 +28,7 @@ export default class Project {
         const data = {
             projects: projects.map(project => project.toJSON())
         };
-        localStorage.setItem('odinTodoList', JSON.stringify(data));
+        localStorage.setItem(Project.projectStorage, JSON.stringify(data));
     }
 
     static findByUUID = (uuid) => {
