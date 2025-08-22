@@ -53,7 +53,70 @@ export default class View {
 
         if (event.target.classList.contains("todo-list-item")) {
             // Create a static method to handle viewing todo in detail
+            View.handleViewTodoDetail(event);
+            return;
         };
+
+        if (event.target.id === "cancel-edit-form") {
+            View.handleCancelEdit(event);
+            return;
+        }
+
+    }
+
+    static handleCancelEdit = (event) => {
+        // Render the todos of the project
+        const project = Project.findByUUID(event.target.closest('form').dataset.projectUuid)
+        // If not found then return an error
+        if (!project) {
+            console.error("Cannot return to non-existing project");
+            return;
+        }
+
+        View.renderProjectTodos(project);
+    }
+
+    static handleViewTodoDetail = (event) => {
+        const project = Project.findByUUID(event.target.dataset.projectUuid)
+
+        if (!project) {
+            console.error('Project not found with UUID');
+            return;
+        };
+                const todo = project.todos.find(todo => {
+            return todo.uuid === event.target.dataset.todoUuid;
+        })
+
+        if (!todo) {
+            console.error(`${todo} is not found`);
+            return;
+        }
+
+        if (!(todo instanceof Todo)) {
+            console.error("Todo is an array or does not exist");
+            return;
+        }
+        
+        // Edit in detail
+        View.contentDOM.innerHTML = `
+        <form id="edit-todo-form" data-project-uuid="${event.target.dataset.projectUuid}">
+            <label for="todo-title">Title
+                <input value="${todo.title ?? ''}" type="text" id="todo-title" name="todo-title" required>
+            </label>
+            <label for="todo-description">Description
+                <input value="${todo.description ?? ''}" type="text" id="todo-description" name="todo-description">
+            </label>
+            <label for="todo-due-date">Due Date
+                <input value="${todo.dueDate ?? ''}" type="text" id="todo-due-date" name="todo-due-date">
+            </label>
+            <label for="todo-priority">Priority
+                <input ${todo.priority ? 'checked' : ''} type="checkbox" id="todo-priority" name="todo-priority">
+            </label>
+            <button type="submit">Update Todo</button>
+            <button id="cancel-edit-form" type="button">Cancel</button>
+        </form>
+        `
+
 
     }
 
@@ -172,7 +235,7 @@ export default class View {
         </ul>`
     }
 
-    static renderTodoList = (todos) => {
+    static renderTodoList = (todos, projectUuid = null) => {
         return `<ul>
             ${todos.map(todo => {
                 const projectData = projectUuid ? `data-project-uuid="${projectUuid}"` : '';
