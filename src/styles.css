@@ -93,7 +93,7 @@ ul .project-list-item:hover {
   cursor: pointer;
 }
 
-#create-todo-form {
+#create-todo-form, #edit-todo-form {
   display: grid;
   grid-template-columns: 1fr 2fr;
   max-width: 500px;
@@ -101,7 +101,7 @@ ul .project-list-item:hover {
   gap: 1rem;
 }
 
-#create-todo-form label {
+#create-todo-form label, #edit-todo-form label {
   display: contents;
 }
 
