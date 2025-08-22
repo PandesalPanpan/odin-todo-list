@@ -11,7 +11,8 @@ export default class Project {
                 todoData.title,
                 todoData.description,
                 todoData.dueDate,
-                todoData.priority
+                todoData.priority,
+                todoData.uuid,
             )
             return todo;
         })
@@ -46,11 +47,11 @@ export default class Project {
             uuid: this.uuid,
             name: this.name,
             todos: this.todos.map(todo => ({
-                uuid: todo.uuid,
                 title: todo.title,
                 description: todo.description,
                 dueDate: todo.dueDate,
-                priority: todo.priority
+                priority: todo.priority,
+                uuid: todo.uuid,
             }))
         }
     }
