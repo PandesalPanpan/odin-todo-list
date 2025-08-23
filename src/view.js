@@ -14,8 +14,10 @@ export default class View {
         View.setRootDOM(dom);
         View.rootDOM.innerHTML = `
         <div class="sidebar">
-            <button id="create-project-btn" type="button">Create New Project</button>
-            <button id="all-project-todos" type="button">View All Todos</button>
+            <div class="main-buttons">
+                <button id="create-project-btn" type="button">Create New Project</button>
+                <button id="all-project-todos" type="button">View All Todos</button>
+            </div>
             <div id="project-list">
             </div>
 
@@ -283,7 +285,7 @@ export default class View {
     static renderProjectTodos = (project) => {
         View.contentDOM.innerHTML = `
         <button type="button" id="create-todo" data-project-uuid="${project.uuid}">Create New Todo</button>
-        <ul>
+        <ul class="todo-list">
             ${project.todos.map(todo => {
                 return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${project.uuid}">
                 ${todo.title}
@@ -299,7 +301,7 @@ export default class View {
             project.todos.map(todo => ({todo, projectUuid: project.uuid}))
         )
         
-        View.contentDOM.innerHTML = `<ul>
+        View.contentDOM.innerHTML = `<ul class="todo-list">
         ${todosWithProject.map(({todo, projectUuid}) => {
             return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${projectUuid}">
             ${todo.title}

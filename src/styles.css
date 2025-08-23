@@ -1,5 +1,7 @@
 /* 1. Use a more-intuitive box-sizing model */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -23,18 +25,31 @@ body {
 }
 
 /* 6. Improve media defaults */
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
 
 /* 7. Inherit fonts for form controls */
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
 /* 8. Avoid text overflows */
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 
@@ -42,14 +57,21 @@ p, h1, h2, h3, h4, h5, h6 {
 p {
   text-wrap: pretty;
 }
-h1, h2, h3, h4, h5, h6 {
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
 }
 
 /*
   10. Create a root stacking context
 */
-#root, #__next {
+#root,
+#__next {
   isolation: isolate;
 }
 
@@ -57,35 +79,54 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Color Palette */
 :root {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-teriary: #334155;
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-teriary: #334155;
 
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
 }
 
 .root-container {
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-    height: 100vh
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  height: 100vh
 }
 
 body {
-    color: var(--text-primary);
+  color: var(--text-primary);
 }
 
 .sidebar {
-    background-color: var(--bg-teriary);
-    
+  padding: 10px 10px 0px 10px;
+  display: grid;
+  grid-template-rows: 1fr 8fr;
+  background-color: var(--bg-teriary);
 }
 
-#content {
-    background-color: var(--bg-primary);
+.sidebar .main-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar button {
+  border-radius: 15px;
+  margin-bottom: 15px;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background-color: var(--text-secondary);
 }
 
 ul {
   list-style: none;
+  padding-inline-start: 0px;
+}
+
+#project-list ul {
+  text-align: center;
 }
 
 ul .project-list-item:hover {
@@ -93,7 +134,12 @@ ul .project-list-item:hover {
   cursor: pointer;
 }
 
-#create-todo-form, #edit-todo-form {
+#content {
+  background-color: var(--bg-primary);
+}
+
+#create-todo-form,
+#edit-todo-form {
   display: grid;
   grid-template-columns: 1fr 2fr;
   max-width: 500px;
@@ -101,10 +147,12 @@ ul .project-list-item:hover {
   gap: 1rem;
 }
 
-#create-todo-form label, #edit-todo-form label {
+#create-todo-form label,
+#edit-todo-form label {
   display: contents;
 }
 
 .todo-list-item {
   cursor: pointer;
 }
+
