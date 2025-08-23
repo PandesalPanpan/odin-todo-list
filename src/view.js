@@ -107,7 +107,7 @@ export default class View {
                 <input value="${todo.description ?? ''}" type="text" id="todo-description" name="todo-description">
             </label>
             <label for="todo-due-date">Due Date
-                <input value="${todo.dueDate ?? ''}" type="text" id="todo-due-date" name="todo-due-date">
+                <input value="${todo.dueDate ?? ''}" type="date" id="todo-due-date" name="todo-due-date">
             </label>
             <label for="todo-priority">Priority
                 <input ${todo.priority ? 'checked' : ''} type="checkbox" id="todo-priority" name="todo-priority">
@@ -153,7 +153,7 @@ export default class View {
                 <input type="text" id="todo-description" name="todo-description">
             </label>
             <label for="todo-due-date">Due Date
-                <input type="text" id="todo-due-date" name="todo-due-date">
+                <input type="date" id="todo-due-date" name="todo-due-date">
             </label>
             <label for="todo-priority">Priority
                 <input type="checkbox" id="todo-priority" name="todo-priority">
@@ -192,6 +192,9 @@ export default class View {
         todo.description = formData.get('todo-description');
         todo.dueDate = formData.get('todo-due-date');
         todo.priority = formData.get('todo-priority');
+
+        // Manually save
+        project.save();
 
         // Go back to project todo list
         View.renderProjectTodos(project);
