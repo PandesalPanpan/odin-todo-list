@@ -99,7 +99,7 @@ export default class View {
         
         // Edit in detail
         View.contentDOM.innerHTML = `
-        <form id="edit-todo-form" data-project-uuid="${event.target.dataset.projectUuid}">
+        <form id="edit-todo-form" data-project-uuid="${event.target.dataset.projectUuid}" data-todo-uuid="${todo.uuid}"">
             <label for="todo-title">Title
                 <input value="${todo.title ?? ''}" type="text" id="todo-title" name="todo-title" required>
             </label>
@@ -126,6 +126,12 @@ export default class View {
             View.handleSubmitCreateTodo(event);
             return;
         }
+
+        // Check if its the edit-todo-form
+        if (event.target.id === 'edit-todo-form') {
+            View.handleSubmitEditTodo(event);
+            return;
+        }
             
         // Check if the submit is for create-project-form
         if (event.target.id === 'create-project-form') {
@@ -133,7 +139,6 @@ export default class View {
             return;
         } 
 
-        console.log(event.target);
     }
 
     
@@ -156,6 +161,40 @@ export default class View {
             <button type="submit">Create Todo</button>
         </form>
         `
+    }
+
+    static handleSubmitEditTodo = (event) => {
+        console.log(event.target.dataset.projectUuid);
+        // Get project instance
+        const project = Project.findByUUID(event.target.dataset.projectUuid);
+
+        if (!project) {
+            console.error("Project not found");
+            return;
+        }
+
+        // Get Todo inside the project
+        const todo = project.todos.find(todo => todo.uuid === event.target.dataset.todoUuid); 
+
+        if (!todo) {
+            console.error("Todo not found");
+            return;
+        }
+
+        if (!(todo instanceof Todo)) {
+            console.error(`${todo} is not a Todo Object`);
+            return;
+        }
+
+        // Edit the changes
+        const formData = new FormData(event.target);
+        todo.title = formData.get('todo-title');
+        todo.description = formData.get('todo-description');
+        todo.dueDate = formData.get('todo-due-date');
+        todo.priority = formData.get('todo-priority');
+
+        // Go back to project todo list
+        View.renderProjectTodos(project);
     }
 
     static handleSubmitCreateTodo = (event) => {
