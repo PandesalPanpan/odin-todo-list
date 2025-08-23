@@ -38,7 +38,7 @@ export default class View {
 
         const viewAllProjectTodosBtn = document.querySelector('#all-project-todos');
         viewAllProjectTodosBtn.addEventListener('click', View.handleViewAllProjectTodos);
-        
+
         View.contentDOM.addEventListener('click', View.handleContentClick);
         View.contentDOM.addEventListener('submit', View.handleContentSubmit);
     }
@@ -53,8 +53,7 @@ export default class View {
             return;
         }
 
-        if (event.target.classList.contains("todo-list-item")) {
-            // Create a static method to handle viewing todo in detail
+        if (event.target.classList.contains("todo-list-item") || (event.target.closest('li')?.classList.contains("todo-list-item"))) {
             View.handleViewTodoDetail(event);
             return;
         };
@@ -79,14 +78,18 @@ export default class View {
     }
 
     static handleViewTodoDetail = (event) => {
-        const project = Project.findByUUID(event.target.dataset.projectUuid)
+        const projectUuid = event.target.dataset.projectUuid ?? event.target.closest('li').dataset.projectUuid;
+        const todoUuid = event.target.dataset.todoUuid ?? event.target.closest('li').dataset.todoUuid;
+
+        const project = Project.findByUUID(projectUuid)
 
         if (!project) {
             console.error('Project not found with UUID');
             return;
         };
-                const todo = project.todos.find(todo => {
-            return todo.uuid === event.target.dataset.todoUuid;
+
+        const todo = project.todos.find(todo => {
+            return todo.uuid === event.target.dataset.todoUuid || event.target.closest('li').dataset.todoUuid;
         })
 
         if (!todo) {
@@ -98,10 +101,10 @@ export default class View {
             console.error("Todo is an array or does not exist");
             return;
         }
-        
+
         // Edit in detail
         View.contentDOM.innerHTML = `
-        <form id="edit-todo-form" data-project-uuid="${event.target.dataset.projectUuid}" data-todo-uuid="${todo.uuid}"">
+        <form id="edit-todo-form" data-project-uuid="${project.uuid}" data-todo-uuid="${todo.uuid}"">
             <label for="todo-title">Title
                 <input value="${todo.title ?? ''}" type="text" id="todo-title" name="todo-title" required>
             </label>
@@ -134,16 +137,16 @@ export default class View {
             View.handleSubmitEditTodo(event);
             return;
         }
-            
+
         // Check if the submit is for create-project-form
         if (event.target.id === 'create-project-form') {
             View.handleSubmitCreateProject(event);
             return;
-        } 
+        }
 
     }
 
-    
+
     /* Todo Form */
     static handleViewCreateTodoForm = (event) => {
         View.contentDOM.innerHTML = `
@@ -176,7 +179,7 @@ export default class View {
         }
 
         // Get Todo inside the project
-        const todo = project.todos.find(todo => todo.uuid === event.target.dataset.todoUuid); 
+        const todo = project.todos.find(todo => todo.uuid === event.target.dataset.todoUuid);
 
         if (!todo) {
             console.error("Todo not found");
@@ -209,7 +212,7 @@ export default class View {
             console.log("Project is not found");
             return;
         }
-        
+
         const formData = new FormData(event.target);
         const todoTitle = formData.get('todo-title');
         const todoDescription = formData.get('todo-description');
@@ -239,7 +242,7 @@ export default class View {
         event.preventDefault();
         const formData = new FormData(event.target);
         const projectName = formData.get('project-name');
-        
+
         // Validate Form
         // Check if it is not null
         if (!projectName) return;
@@ -259,7 +262,7 @@ export default class View {
         }
 
         const project = Project.findByUUID(projectDOM.dataset.projectUuid);
-        
+
         if (project === undefined) {
             return;
         }
@@ -271,13 +274,13 @@ export default class View {
     // Rendering the list of todos in a project
     static renderProjectNavigation = (projects) => {
         const projectList = document.querySelector('#project-list');
-    
+
         projectList.innerHTML = `<ul>
             ${projects.map((project, index) => {
-                return `<li class="project-list-item" data-project-uuid="${project.uuid}">
+            return `<li class="project-list-item" data-project-uuid="${project.uuid}">
                     ${project.name}
                 </li>`;
-            }).join('')}
+        }).join('')}
         </ul>`
     }
 
@@ -287,27 +290,37 @@ export default class View {
         <button type="button" id="create-todo" data-project-uuid="${project.uuid}">Create New Todo</button>
         <ul class="todo-list">
             ${project.todos.map(todo => {
-                return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${project.uuid}">
-                ${todo.title}
+            return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${project.uuid}">
+                ${View.renderTodoCard(todo)}
                 </li>`
-            }).join('')}
+        }).join('')}
         </ul>
         `
     }
 
     // Takes Multiple Projects
     static renderAllProjectTodos = (projects) => {
-        const todosWithProject = projects.flatMap(project => 
-            project.todos.map(todo => ({todo, projectUuid: project.uuid}))
+        const todosWithProject = projects.flatMap(project =>
+            project.todos.map(todo => ({ todo, projectUuid: project.uuid }))
         )
-        
+
         View.contentDOM.innerHTML = `<ul class="todo-list">
-        ${todosWithProject.map(({todo, projectUuid}) => {
+        ${todosWithProject.map(({ todo, projectUuid }) => {
             return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${projectUuid}">
-            ${todo.title}
+            ${View.renderTodoCard(todo)}
             </li>`
         }).join('')}
         </ul>`;
-        
+
+    }
+
+    static renderTodoCard = (todo) => {
+        return `<div class="card-todo">
+        <h4>${todo.title}</h4>
+        <div class="date-and-priority">
+            <p>Due: ${todo.dueDate}</p>
+            <div>Priority <input type="checkbox" ${todo.priority ? 'checked' : ''}></div>
+        </div>
+        </div>`
     }
 }
