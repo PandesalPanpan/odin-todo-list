@@ -290,7 +290,7 @@ export default class View {
         <button type="button" id="create-todo" data-project-uuid="${project.uuid}">Create New Todo</button>
         <ul class="todo-list">
             ${project.todos.map(todo => {
-            return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${project.uuid}">
+            return `<li class="todo-list-item ${todo.priority ? 'todo-priority-card' : ''}" data-todo-uuid="${todo.uuid}" data-project-uuid="${project.uuid}">
                 ${View.renderTodoCard(todo)}
                 </li>`
         }).join('')}
@@ -306,7 +306,7 @@ export default class View {
 
         View.contentDOM.innerHTML = `<ul class="todo-list">
         ${todosWithProject.map(({ todo, projectUuid }) => {
-            return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${projectUuid}">
+            return `<li class="todo-list-item ${todo.priority ? 'todo-priority-card' : ''}" data-todo-uuid="${todo.uuid}" data-project-uuid="${projectUuid}">
             ${View.renderTodoCard(todo)}
             </li>`
         }).join('')}
@@ -315,7 +315,7 @@ export default class View {
     }
 
     static renderTodoCard = (todo) => {
-        return `<div class="card-todo">
+        return `<div class="card-todo ${todo.priority ? 'card-priority' : ''}">
         <h4>${todo.title}</h4>
         <div class="date-and-priority">
             <p>Due: ${todo.dueDate}</p>
