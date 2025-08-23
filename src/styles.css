@@ -82,6 +82,7 @@ h6 {
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
   --bg-teriary: #334155;
+  --bg-quaternary: #50627c;
 
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
@@ -177,3 +178,6 @@ ul .project-list-item:hover {
   justify-content: space-between;
 }
 
+.todo-priority-card {
+  background-color: var(--bg-quaternary);
+}
