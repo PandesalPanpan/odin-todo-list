@@ -132,6 +132,8 @@ export default class View {
             View.handleSubmitCreateProject(event);
             return;
         } 
+
+        console.log(event.target);
     }
 
     
@@ -235,23 +237,17 @@ export default class View {
         </ul>`
     }
 
-    static renderTodoList = (todos, projectUuid = null) => {
-        return `<ul>
-            ${todos.map(todo => {
-                const projectData = projectUuid ? `data-project-uuid="${projectUuid}"` : '';
-                return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" ${projectData}>
-                ${todo.title}
-                </li>`
-            }).join('')}
-        </ul>
-        `
-    }
-
     // Takes a single project instance
     static renderProjectTodos = (project) => {
         View.contentDOM.innerHTML = `
         <button type="button" id="create-todo" data-project-uuid="${project.uuid}">Create New Todo</button>
-        ${View.renderTodoList(project.todos, project.uuid)}
+        <ul>
+            ${project.todos.map(todo => {
+                return `<li class="todo-list-item" data-todo-uuid="${todo.uuid}" data-project-uuid="${project.uuid}">
+                ${todo.title}
+                </li>`
+            }).join('')}
+        </ul>
         `
     }
 
